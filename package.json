@@ -16,6 +16,7 @@
     "@types/node": "^20.4.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "fast-glob": "^3.3.0",
+    "postcss-px-to-viewport-8-plugin": "^1.2.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.0",
     "vite-plugin-svg-icons": "^2.0.1",
