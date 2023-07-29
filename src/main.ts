@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import router from '@/router'
-import App from './App.vue'
+
+import 'normalize.css/normalize.css'
+import '@/styles/index.less'
+
+import App from '@/App.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import 'virtual:svg-icons-register'
 
