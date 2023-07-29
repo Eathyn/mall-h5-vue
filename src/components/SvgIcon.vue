@@ -15,15 +15,15 @@ const iconName = computed(() => `#icon-${props.name}`)
 </script>
 
 <template>
-  <svg class="icon" aria-hidden="true">
+  <svg class="icon-class" aria-hidden="true">
     <use :xlink:href="iconName" :fill="color" />
   </svg>
 </template>
 
-<style scoped>
-.icon {
+<style lang="less" scoped>
+.icon-class {
+  position: relative;
   width: v-bind(size);
   height: v-bind(size);
-  position: relative;
 }
 </style>
