@@ -6,6 +6,7 @@ import '@/styles/index.less'
 
 import App from '@/App.vue'
 import SvgIcon from '@/components/SvgIcon.vue'
+
 import 'virtual:svg-icons-register'
 
 const app = createApp(App)

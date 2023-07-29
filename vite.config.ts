@@ -10,7 +10,7 @@ const pxToVw = postcssPxToViewport({
   unitPrecision: 5,
   propList: ['*'],
   viewportUnit: 'vw',
-  fontViewportUnit: 'wv',
+  fontViewportUnit: 'vw',
   selectorBlackList: [],
   minPixelValue: 1,
   mediaQuery: true,
