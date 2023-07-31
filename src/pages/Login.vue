@@ -1,64 +1,31 @@
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue'
-import { useFocus } from '@vueuse/core'
+import useOverlay from '@/use/Home/useOverlay.ts'
+import useAgreeClause from '@/use/Home/useAgreeClause.ts'
+import useLoginForm from '@/use/Home/useLoginForm.ts'
 
-interface LoginInputs {
-  account: string
-  password: string
-}
+const { showOverlay } = useOverlay()
 
-const state = reactive<LoginInputs>({
-  account: '',
-  password: '',
-})
-const accountInputRef = ref<HTMLInputElement | null>(null)
-const passwordInputRef = ref<HTMLInputElement | null>(null)
-const { focused: isAccountInputFocused } = useFocus(accountInputRef)
-const { focused: isPasswordInputFocused } = useFocus(passwordInputRef)
-const passwordToggleIcon = ref<'eye-close' | 'eye'>('eye-close')
-const isAgreeClause = ref<boolean>(false)
-const agreeIconSize = ref<string>('16px')
-const showOverlay = ref<boolean>(false)
+const {
+  isAgreeClause,
+  agreeIconName,
+  agreeIconSize,
+  toggleAgreeIcon,
+  determineAgreement,
+} = useAgreeClause({ showOverlay })
 
-const showAccountCleanIcon = computed(() => state.account !== '' && isAccountInputFocused.value)
-const showPasswordCleanIcon = computed(() => state.password !== '' && isPasswordInputFocused.value)
-const opacity = computed<number>(() => state.account === '' || state.password === '' ? 0.3 : 1)
-const agreeIconName = computed<'round' | 'round_check_fill'>(() => isAgreeClause.value ? 'round_check_fill' : 'round')
-const passwordInputType = computed<'password' | 'text'>(() => passwordToggleIcon.value === 'eye-close' ? 'password' : 'text')
-
-function cleanLoginInput(type: keyof LoginInputs) {
-  state[type] = ''
-}
-
-function togglePasswordIcon() {
-  passwordToggleIcon.value = passwordToggleIcon.value === 'eye-close' ? 'eye' : 'eye-close'
-}
-
-function toggleAgreeIcon() {
-  isAgreeClause.value = !isAgreeClause.value
-}
-
-function submit() {
-  if (state.account === '') {
-    return
-  }
-  if (state.password === '') {
-    return
-  }
-  if (!isAgreeClause.value) {
-    showOverlay.value = true
-    return
-  }
-}
-
-function determineAgreement(isAgree: boolean) {
-  if (isAgree) {
-    isAgreeClause.value = true
-    showOverlay.value = false
-  } else {
-    showOverlay.value = false
-  }
-}
+const {
+  state,
+  accountInputRef,
+  passwordInputRef,
+  passwordToggleIcon,
+  showAccountCleanIcon,
+  showPasswordCleanIcon,
+  opacity,
+  passwordInputType,
+  cleanLoginInput,
+  togglePasswordIcon,
+  submit
+} = useLoginForm({ isAgreeClause, showOverlay })
 </script>
 
 <template>
@@ -110,6 +77,7 @@ function determineAgreement(isAgree: boolean) {
 
     <button
       class="submit"
+      :disabled="isAgreeClause"
       @click="submit"
     >
       登录
