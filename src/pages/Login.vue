@@ -30,14 +30,15 @@ const {
 
 <template>
   <div class="container">
-    <SvgIcon class="icon" name="close" />
+    <SvgIcon class="icon-close" name="close" />
 
-    <div class="title">亲，欢迎登录</div>
-    <div class="tip">没有淘宝账号？<a class="register">立即注册</a></div>
+    <div class="greet">亲，欢迎登录</div>
+
+    <div class="register">没有淘宝账号？<a class="register__btn">立即注册</a></div>
 
     <div class="account">
       <input
-        class="account-input"
+        class="account__input"
         v-model="state.account"
         ref="accountInputRef"
         placeholder="请输入账户名"
@@ -50,18 +51,17 @@ const {
         @mousedown="cleanLoginInput('account')"
       />
     </div>
-    <div class="line"></div>
 
     <div class="password">
       <input
-        class="password-input"
+        class="password__input"
         v-model="state.password"
         ref="passwordInputRef"
         placeholder="请输入密码"
         :type="passwordInputType"
       >
       <SvgIcon
-        class="clean-password-icon"
+        class="password__clean-icon"
         color="#ccc"
         name="round_close_fill"
         v-show="showPasswordCleanIcon"
@@ -73,44 +73,42 @@ const {
         @click="togglePasswordIcon"
       />
     </div>
-    <div class="line"></div>
 
     <button
-      class="submit"
+      class="submit-button"
       :disabled="isAgreeClause"
       @click="submit"
     >
       登录
     </button>
 
-    <div class="bottom">
-      <div class="option-wrapper">
-        <div class="alipay">
-          <SvgIcon
-            class="icon-alipay"
-            color="#06b4fc"
-            name="alipay"
-            size="24px"
-          />
-          <span>支付宝登录</span>
-        </div>
-        <div class="vertical-line"></div>
-        <div class="more-options">更多选项</div>
+    <div class="login-option">
+      <div class="login-option__alipay">
+        <SvgIcon
+          class="icon-alipay"
+          color="#06b4fc"
+          name="alipay"
+          size="24px"
+        />
+        <span>支付宝登录</span>
       </div>
-      <div class="agreement">
-        <div class="agree-icon-wrap">
-          <SvgIcon
-            class="agree-icon"
-            :size="agreeIconSize"
-            :name="agreeIconName"
-            :color="isAgreeClause ? '#fe4a00' : '#999999'"
-            @click="toggleAgreeIcon"
-          />
-        </div>
-        <label class="text" for="agree">已阅读并同意<span class="clause">《淘宝平台服务协议》</span><span class="clause">《隐私权政策》</span><span
-          class="clause">《支付宝注册相关协议》</span>
-          <span class="clause">《中国移动认证服务条款》</span>，未注册的手机号将自动完成账号注册</label>
+      <div class="vertical-line"></div>
+      <div class="login-option__more">更多选项</div>
+    </div>
+
+    <div class="agreement">
+      <div class="agreement__icon-wrap">
+        <SvgIcon
+          class="agree-icon"
+          :size="agreeIconSize"
+          :name="agreeIconName"
+          :color="isAgreeClause ? '#fe4a00' : '#999999'"
+          @click="toggleAgreeIcon"
+        />
       </div>
+      <p class="agreement__text" for="agree">已阅读并同意<span class="agreement__text-clause">《淘宝平台服务协议》</span>
+        <span class="agreement__text-clause">《隐私权政策》</span><span class="agreement__text-clause">《支付宝注册相关协议》
+        </span><span class="agreement__text-clause">《中国移动认证服务条款》</span>，未注册的手机号将自动完成账号注册</p>
     </div>
   </div>
 
@@ -119,19 +117,19 @@ const {
     v-show="showOverlay"
   >
     <div class="popup">
-      <div class="title">服务协议及隐私保护</div>
-      <p class="content">为了更好地保障您地合法权益，请您阅读并同意以下协议<span class="clause">《淘宝平台服务协议》</span>
-        <span class="clause">《隐私权政策》</span><span class="clause">《支付宝注册相关协议》</span><span class="clause">
-          《中国移动认证服务条款》</span>，未注册的手机号将自动完成账号注册</p>
-      <div class="btn-wrap">
+      <div class="popup__title">服务协议及隐私保护</div>
+      <p class="popup__content">为了更好地保障您地合法权益，请您阅读并同意以下协议<span class="popup__content-clause">《淘宝平台服务
+        协议》</span><span class="popup__content-clause">《隐私权政策》</span><span class="popup__content-clause">《支付宝注册相关协议》
+      </span><span class="popup__content-clause">《中国移动认证服务条款》</span>，未注册的手机号将自动完成账号注册</p>
+      <div class="popup__button-wrap">
         <button
-          class="button agree"
+          class="popup__button popup__button--disagree"
           @click="determineAgreement(false)"
         >
           不同意
         </button>
         <button
-          class="button disagree"
+          class="popup__button popup__button--agree"
           @click="determineAgreement(true)"
         >
           同意
@@ -145,125 +143,122 @@ const {
 @import "@/styles/variable.less";
 @import "@/styles/mixin.less";
 
-@container-padding: 26px;
-
 .container {
-  padding: 12px @container-padding 30px;
+  padding: 12px 26px 30px;
+}
 
-  .icon {
-    position: absolute;
-    left: 20px;
+.icon-close {
+  position: absolute;
+  left: 20px;
+}
+
+.greet {
+  font-size: 28px;
+  margin: 75px 0 13px;
+  letter-spacing: 2px;
+}
+
+.register {
+  color: @Dark-Gray;
+  letter-spacing: 1px;
+  margin-bottom: 65px;
+  font-size: 16px;
+  .register__btn {
+    color: @Coquelicot;
   }
+}
 
-  .title {
-    font-size: 28px;
-    margin: 75px 0 13px;
-    letter-spacing: 2px;
+.account {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border-bottom: 1px solid @American-Silver;
+  margin-bottom: 15px;
+  .account__input {
+    .login-input()
   }
-
-  .tip {
-    color: @Dark-Gray;
-    letter-spacing: 1px;
-    margin-bottom: 65px;
-    font-size: 16px;
-    .register {
-      color: @Coquelicot;
-    }
+  .account__input::placeholder {
+    color: @Chinese-Silver;
   }
+}
 
-  .account {
+.password {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid @American-Silver;
+  margin-bottom: 15px;
+  .password__input {
+    .login-input();
+  }
+  .password__input::placeholder {
+    color: @Chinese-Silver;
+  }
+  .password__clean-icon {
+    margin-right: 10px;
+  }
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  color: #fff;
+  background: linear-gradient(to right, @American-orange, @International-Orange_Aerospace);
+  border: none;
+  font-size: 16px;
+  padding: 12px 0;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  opacity: v-bind(opacity);
+  margin: 35px 0 147px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.login-option {
+  .center();
+  margin: 0 auto 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: @Dark-Charcoal;
+
+  .login-option__alipay {
     display: flex;
-    align-items: flex-start;
-    position: relative;
-    .account-input {
-      .login-input()
-    }
-    .account-input::placeholder {
-      color: @Chinese-Silver;
+    align-items: center;
+    padding-right: 12px;
+
+    .icon-alipay {
+      margin-right: 3px;
     }
   }
 
-  .password {
-    display: flex;
-    align-items: flex-start;
-    .password-input {
-      .login-input();
-    }
-    .password-input::placeholder {
-      color: @Chinese-Silver;
-    }
-    .clean-password-icon {
-      margin-right: 10px;
-    }
+  .vertical-line {
+    border-left: (3px / 2) solid @Light-Gray;
+    height: 15px;
   }
 
-  .line {
-    width: 100%;
-    border-top: 1px solid @American-Silver;
-    margin-bottom: 15px;
+  .login-option__more {
+    margin-left: 10px;
+  }
+}
+
+.agreement {
+  color: @Spanish-gray;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 5px;
+
+  .agreement__icon-wrap {
+    width: v-bind(agreeIconSize);
   }
 
-  .submit {
-    width: 100%;
-    color: #fff;
-    background: linear-gradient(to right, @American-orange, @International-Orange_Aerospace);
-    border: none;
-    font-size: 16px;
-    padding: 12px 0;
-    border-radius: 20px;
+  .agreement__text {
+    font-size: 24px;
+    zoom: 0.5;
     letter-spacing: 2px;
-    opacity: v-bind(opacity);
-    margin: 35px 0 147px;
-  }
+    line-height: 1.6;
+    margin: 0;
 
-  .bottom {
-    .option-wrapper {
-      .center();
-      margin: 0 auto 10px;
-      font-size: 12px;
-      letter-spacing: 1px;
+    .agreement__text-clause {
       color: @Dark-Charcoal;
-
-      .alipay {
-        display: flex;
-        align-items: center;
-        padding-right: 12px;
-
-        .icon-alipay {
-          margin-right: 3px;
-        }
-      }
-
-      .vertical-line {
-        border-left: (3px / 2) solid @Light-Gray;
-        height: 15px;
-      }
-
-      .more-options {
-        margin-left: 10px;
-      }
-    }
-
-    .agreement {
-      color: @Spanish-gray;
-      display: flex;
-      align-items: flex-start;
-      column-gap: 5px;
-
-      .agree-icon-wrap {
-        width: v-bind(agreeIconSize);
-      }
-
-      .text {
-        font-size: 24px;
-        zoom: 0.5;
-        letter-spacing: 2px;
-        line-height: 1.6;
-
-        .clause {
-          color: @Dark-Charcoal;
-        }
-      }
     }
   }
 }
@@ -279,59 +274,59 @@ const {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
   .center();
+}
 
-  .popup {
-    position: fixed;
-    width: 80%;
-    background: #fff;
-    border-radius: 25px;
+.popup {
+  position: fixed;
+  width: 80%;
+  background: #fff;
+  border-radius: 25px;
 
-    .title {
-      text-align: center;
-      font-size: 20px;
-      letter-spacing: 1px;
-      font-weight: bold;
-      margin: 20px 0;
+  .popup__title {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: @Dark-Charcoal;
+  }
+
+  .popup__content {
+    color: @Quick-Silver;
+    font-size: 22px;
+    zoom: 0.5;
+    letter-spacing: 2px;
+    margin: 20px 25px 25px;
+    line-height: 1.7;
+
+    .popup__content-clause {
       color: @Dark-Charcoal;
     }
+  }
 
-    .content {
-      color: @Quick-Silver;
-      font-size: 22px;
-      zoom: 0.5;
-      letter-spacing: 2px;
-      margin: 20px 25px 25px;
-      line-height: 1.7;
+  .popup__button-wrap {
+    .center();
+    column-gap: 7%;
+    margin-bottom: 15px;
 
-      .clause {
-        color: @Dark-Charcoal;
-      }
+    .popup__button {
+      width: 35%;
+      border: none;
+      border-radius: 60px;
+      font-size: 18px;
+      padding: 7px 0;
     }
 
-    .btn-wrap {
-      .center();
-      column-gap: 7%;
-      margin-bottom: 15px;
+    .popup__button--disagree {
+      border: 1px solid @Medium-Vermilion;
+      color: @Medium-Vermilion;
+      background: #ffffff;
+    }
 
-      .button {
-        width: 35%;
-        border: none;
-        border-radius: 60px;
-        font-size: 18px;
-        padding: 7px 0;
-      }
-
-      .agree {
-        border: 1px solid @Medium-Vermilion;
-        color: @Medium-Vermilion;
-        background: #ffffff;
-      }
-
-      .disagree {
-        border: 1px solid @Giants-Orange;
-        color: #ffffff;
-        background: @Giants-Orange;
-      }
+    .popup__button--agree {
+      border: 1px solid @Giants-Orange;
+      color: #ffffff;
+      background: @Giants-Orange;
     }
   }
 }
