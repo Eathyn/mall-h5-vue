@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { IconProps } from '@/types/interface.ts'
 
-interface Props {
-  name: string
-  color?: string
-  size?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IconProps>(), {
   color: '#000',
   size: '20px',
 })
